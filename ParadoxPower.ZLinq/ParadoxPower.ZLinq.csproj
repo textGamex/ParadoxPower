@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <LangVersion>13</LangVersion>
-        <Version>0.1.0</Version>
+        <Version>0.2.1</Version>
         <PackageProjectUrl>https://github.com/textGamex/ParadoxPower</PackageProjectUrl>
         <Authors>textGamex</Authors>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>

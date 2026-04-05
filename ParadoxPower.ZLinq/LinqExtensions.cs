@@ -7,39 +7,28 @@ namespace ParadoxPower.ZLinq;
 
 public static class LinqExtensions
 {
-    public static ValueEnumerable<ArrayWhereSelect<Child, Node>, Node> NodesValue(this Node node)
+    extension(Node node)
     {
-        return node
+        public ValueEnumerable<ArrayWhereSelect<Child, Node>, Node> NodesValue => node
             .AllArray.AsValueEnumerable()
             .Where(static x => x.IsNodeChild)
             .Select(static x => Unsafe.As<Child.NodeChild>(x).Item);
-    }
 
-    public static ValueEnumerable<ArrayWhereSelect<Child, Leaf>, Leaf> LeavesValue(this Node node)
-    {
-        return node
-            .AllArray.AsValueEnumerable()
-            .Where(static x => x.IsLeafChild)
-            .Select(static x => Unsafe.As<Child.LeafChild>(x).Item);
-    }
+        public ValueEnumerable<ArrayWhereSelect<Child, Leaf>, Leaf> LeavesValue =>
+            node
+                .AllArray.AsValueEnumerable()
+                .Where(static x => x.IsLeafChild)
+                .Select(static x => Unsafe.As<Child.LeafChild>(x).Item);
 
-    public static ValueEnumerable<ArrayWhereSelect<Child, LeafValue>, LeafValue> LeafValuesValue(
-        this Node node
-    )
-    {
-        return node
+        public ValueEnumerable<ArrayWhereSelect<Child, LeafValue>, LeafValue> LeafValuesValue => node
             .AllArray.AsValueEnumerable()
             .Where(static x => x.IsLeafValueChild)
             .Select(static x => Unsafe.As<Child.LeafValueChild>(x).Item);
-    }
 
-    public static ValueEnumerable<ArrayWhereSelect<Child, Comment>, Comment> CommentsValue(
-        this Node node
-    )
-    {
-        return node
-            .AllArray.AsValueEnumerable()
-            .Where(static x => x.IsCommentChild)
-            .Select(static x => Unsafe.As<Child.CommentChild>(x).Item);
+        public ValueEnumerable<ArrayWhereSelect<Child, Comment>, Comment> CommentsValue =>
+            node
+                .AllArray.AsValueEnumerable()
+                .Where(static x => x.IsCommentChild)
+                .Select(static x => Unsafe.As<Child.CommentChild>(x).Item);
     }
 }
