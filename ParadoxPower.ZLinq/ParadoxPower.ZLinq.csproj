@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <LangVersion>13</LangVersion>
+        <Version>0.1.0</Version>
+        <PackageProjectUrl>https://github.com/textGamex/ParadoxPower</PackageProjectUrl>
+        <Authors>textGamex</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ZLinq" Version="1.5.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ParadoxPower.Core\ParadoxPower.fsproj" />
+    </ItemGroup>
+
+</Project>

@@ -30,7 +30,6 @@ let posBitCount = lineBitCount + columnBitCount
 let _ = assert (posBitCount <= 32)
 let posColumnMask = mask32 0 columnBitCount
 let lineColumnMask = mask32 columnBitCount lineBitCount
-let inline (lsr) (x: int) (y: int) = int32 (uint32 x >>> y)
 
 [<Struct; CustomEquality; NoComparison>]
 #if NET5_0_OR_GREATER
@@ -44,7 +43,7 @@ type pos(code: int32) =
         let p = (c &&& posColumnMask) ||| ((l <<< columnBitCount) &&& lineColumnMask)
         pos p
 
-    member p.Line = (code lsr columnBitCount)
+    member p.Line = int32 (uint32 code >>> columnBitCount)
     member p.Column = (code &&& posColumnMask)
 
     member r.Encoding = code

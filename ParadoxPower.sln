@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParadoxPower.Languages", "ParadoxPower.Languages\ParadoxPower.Languages.csproj", "{1DD24681-556F-4068-8490-C437CF1D236A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParadoxPower.ZLinq", "ParadoxPower.ZLinq\ParadoxPower.ZLinq.csproj", "{40918673-EF65-4D8F-B940-27E22776AE44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1DD24681-556F-4068-8490-C437CF1D236A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD24681-556F-4068-8490-C437CF1D236A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD24681-556F-4068-8490-C437CF1D236A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40918673-EF65-4D8F-B940-27E22776AE44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40918673-EF65-4D8F-B940-27E22776AE44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40918673-EF65-4D8F-B940-27E22776AE44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40918673-EF65-4D8F-B940-27E22776AE44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
