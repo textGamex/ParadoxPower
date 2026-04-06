@@ -54,7 +54,7 @@ module Types =
     type Key =
         | Key of string
 
-        override x.ToString() = let (Key v) = x in sprintf "%s" v
+        override x.ToString() = let (Key v) = x in v
 
 #if NET5_0_OR_GREATER
     [<System.Runtime.CompilerServices.IsReadOnly>]
