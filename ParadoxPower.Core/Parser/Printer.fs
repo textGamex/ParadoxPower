@@ -4,11 +4,12 @@ open Types
 open FParsec
 
 module Printer =
+    open System
     let private tabs n = new string ('\t', n)
 
     let rec private printValue v depth =
         match v with
-        | Clause kvl -> "{\n" + printKeyValueList kvl (depth + 1) + tabs depth + "}"
+        | Clause kvl -> "{" + Environment.NewLine + printKeyValueList kvl (depth + 1) + tabs depth + "}"
         | x -> x.ToString()
 
     and private printKeyValue (acc, leadingNewline, prevStart, prevEnd) kv depth =
@@ -17,10 +18,10 @@ module Printer =
             if r.StartLine = prevStart && r.StartLine = prevEnd || (not leadingNewline) then
                 acc + (tabs depth) + "#" + c, true, r.StartLine, r.EndLine
             else
-                acc + "\n" + (tabs depth) + "#" + c, true, r.StartLine, r.EndLine
+                acc + Environment.NewLine + (tabs depth) + "#" + c, true, r.StartLine, r.EndLine
         | KeyValue(PosKeyValue(r, KeyValueItem(key, v, op))) ->
             acc
-            + (if leadingNewline then "\n" else "")
+            + (if leadingNewline then Environment.NewLine else "")
             + (tabs depth)
             + key.ToString()
             + " "
@@ -32,7 +33,7 @@ module Printer =
             r.EndLine
         | Value(r, v) ->
             acc
-            + (if leadingNewline then "\n" else "")
+            + (if leadingNewline then Environment.NewLine else "")
             + (tabs depth)
             + (printValue v depth),
             true,
@@ -42,7 +43,7 @@ module Printer =
     and private printKeyValueList (kvl: Statement seq) (depth: int) : string =
         kvl
         |> Seq.fold (fun acc kv -> printKeyValue acc kv depth) ("", false, -1, -1)
-        |> (fun (res, leadingNewline, _, _) -> if leadingNewline then res + "\n" else res)
+        |> (fun (res, leadingNewline, _, _) -> if leadingNewline then res + Environment.NewLine else res)
 
     let printTopLevelKeyValueList kvl =
         kvl
@@ -51,7 +52,7 @@ module Printer =
                 match kv with
                 | KeyValue(PosKeyValue(_, KeyValueItem(_, Clause _, _))) as x ->
                     let res, a, b, c = printKeyValue acc kv 0
-                    (res + "\n", a, b, c)
+                    (res + Environment.NewLine, a, b, c)
                 | x -> printKeyValue acc kv 0)
             ("", false, -1, -1)
         |> (fun (res, _, _, _) -> res)
