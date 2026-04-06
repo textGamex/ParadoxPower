@@ -629,7 +629,7 @@ module ProcessCore =
             | Value(pos, v) -> LeafValueChild(LeafValue(v, pos))
 
         member _.ProcessNode() =
-            (fun key pos ->
+            fun key pos ->
                 lookupNode
                     key
                     pos
@@ -637,10 +637,10 @@ module ProcessCore =
                       parents = []
                       scope = ""
                       previous = ""
-                      entityType = EntityType.Other })
+                      entityType = EntityType.Other }
 
         member _.ProcessNode(entityType: EntityType) =
-            (fun key pos ->
+            fun key pos ->
                 lookupNode
                     key
                     pos
@@ -648,6 +648,6 @@ module ProcessCore =
                       parents = []
                       scope = ""
                       previous = ""
-                      entityType = entityType })
+                      entityType = entityType }
 
     let simpleProcess = BaseProcess()

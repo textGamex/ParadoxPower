@@ -34,10 +34,13 @@ public class ProcessTest
     [Test]
     public void TryGetLeafTest()
     {
-        Assert.That(_root.TryGetLeaf("key1", out var leaf), Is.True);
-        Assert.That(leaf!.Value.ToRawString(), Is.EqualTo("value1"));
-        Assert.That(_root.TryGetLeaf("notKey", out var nullLeaf), Is.False);
-        Assert.That(nullLeaf, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(_root.TryGetLeaf("key1", out var leaf), Is.True);
+            Assert.That(leaf!.Value.ToRawString(), Is.EqualTo("value1"));
+            Assert.That(_root.TryGetLeaf("notKey", out var nullLeaf), Is.False);
+            Assert.That(nullLeaf, Is.Null);
+        }
     }
 
     [Test]
@@ -86,38 +89,45 @@ public class ProcessTest
                 Position.Range.Zero
             )
         );
-        Assert.That(node.TryGetLeaf("addKey", out var leaf), Is.True);
-        Assert.That(leaf!.Value.ToRawString(), Is.EqualTo("1"));
-        Assert.That(leaf.Value.IsInt, Is.True);
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(node.TryGetLeaf("addKey", out var leaf), Is.True);
+            Assert.That(leaf!.Value.ToRawString(), Is.EqualTo("1"));
+            Assert.That(leaf.Value.IsInt, Is.True);
+        }
     }
 
     [Test]
     public void LeafTest()
     {
         var leaf = new Leaf("key1", Types.Value.NewString("value"), Types.Operator.Equals);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(leaf.Key, Is.EqualTo("key1"));
             Assert.That(leaf.Value.ToRawString(), Is.EqualTo("value"));
             Assert.That(leaf.Operator, Is.EqualTo(Types.Operator.Equals));
             Assert.That(leaf.Value.IsString, Is.True);
-        });
+        }
     }
 
     [Test]
     public void LeafValuesTest()
     {
         var leaf = LeafValue.Create(Types.Value.NewString("value"));
-        Assert.That(leaf.Value.ToRawString(), Is.EqualTo("value"));
-        Assert.That(leaf.Key, Is.EqualTo(leaf.Value.ToRawString()));
-        Assert.That(leaf.ValueText, Is.EqualTo(leaf.Value.ToRawString()));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(leaf.Value.ToRawString(), Is.EqualTo("value"));
+            Assert.That(leaf.Key, Is.EqualTo(leaf.Value.ToRawString()));
+            Assert.That(leaf.ValueText, Is.EqualTo(leaf.Value.ToRawString()));
+        }
     }
 
     [Test]
     public void NodeTest()
     {
         var node = new Node("key1", Position.Range.Zero);
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(node.Key, Is.EqualTo("key1"));
             Assert.That(node.AllArray, Is.Empty);
@@ -125,7 +135,7 @@ public class ProcessTest
             Assert.That(node.Comments, Is.Empty);
             Assert.That(node.Position, Is.EqualTo(Position.Range.Zero));
             Assert.That(node.Parent, Is.Null);
-        });
+        }
     }
 
     [Test]
@@ -142,13 +152,13 @@ public class ProcessTest
         Assert.That(leaf2, Is.Not.Null);
         Assert.That(node, Is.Not.Null);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(common.Comment, Is.EqualTo(" comment1"));
             Assert.That(leaf1.Key, Is.EqualTo("key1"));
             Assert.That(leaf2.Key, Is.EqualTo("key2"));
             Assert.That(node.Key, Is.EqualTo("node1"));
-        });
+        }
     }
 
     [Test]
@@ -159,13 +169,13 @@ public class ProcessTest
         children[1].TryGetLeaf(out var leaf);
         children[3].TryGetNode(out var node);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(node!.Parent, Is.SameAs(_root));
             Assert.That(node.Parent.Parent, Is.Null);
             Assert.That(leaf!.Parent, Is.SameAs(_root));
             Assert.That(leaf.Parent.Parent, Is.Null);
-        });
+        }
     }
 
     [Test]
@@ -206,6 +216,21 @@ public class ProcessTest
             Assert.That(newNode.Parent, Is.Not.SameAs(rawNode.Parent));
             Assert.That(rawNode.Parent, Is.Not.Null);
             Assert.That(newNode.Parent, Is.Null);
+        }
+    }
+
+    [Test]
+    public void ToScriptTest()
+    {
+        var rawText = "test = \"\\\" ABC \\\"\"" + Environment.NewLine;
+        var node = ParserHelper.Parse(rawText);
+        var script = node.ToScript();
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(node.Leaves.First().Value.ToRawString(), Is.EqualTo("\" ABC \""));
+            Assert.That(node.Leaves.First().Value.ToString(), Is.EqualTo("\"\\\" ABC \\\"\""));
+            Assert.That(script, Is.EqualTo(rawText));
         }
     }
 }

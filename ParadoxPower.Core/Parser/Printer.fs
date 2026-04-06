@@ -14,7 +14,7 @@ module Printer =
 
     and private printKeyValue (acc, leadingNewline, prevStart, prevEnd) kv depth =
         match kv with
-        | CommentStatement({ Position = r; Comment = c }) ->
+        | CommentStatement { Position = r; Comment = c } ->
             if r.StartLine = prevStart && r.StartLine = prevEnd || (not leadingNewline) then
                 acc + (tabs depth) + "#" + c, true, r.StartLine, r.EndLine
             else
@@ -22,12 +22,12 @@ module Printer =
         | KeyValue(PosKeyValue(r, KeyValueItem(key, v, op))) ->
             acc
             + (if leadingNewline then Environment.NewLine else "")
-            + (tabs depth)
+            + tabs depth
             + key.ToString()
             + " "
             + operatorToString op
             + " "
-            + (printValue v depth),
+            + printValue v depth,
             true,
             r.StartLine,
             r.EndLine

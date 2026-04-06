@@ -77,7 +77,7 @@ module Types =
         override x.ToString() =
             match x with
             | Clause b -> $"{{ {b} }}"
-            | QString s -> "\"" + s + "\""
+            | QString s -> "\"" + s.Replace("\"", "\\\"") + "\""
             | String s -> s
             | Bool b -> if b then "yes" else "no"
             | Float f -> f.ToString(CultureInfo.InvariantCulture)
