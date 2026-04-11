@@ -320,6 +320,10 @@ module internal SharedParsers =
         let byP = attempt valueBYes <|> valueStr
         let bnP = attempt valueBNo <|> valueStr
         let mpP = metaPrograming
+        let rgbP = attempt rgb <|> valueStr
+        let rgbCP = attempt rgbC <|> valueStr
+        let hsvP = attempt hsv <|> valueStr
+        let hsvCP = attempt hsvC <|> valueStr
 
         fun (stream: CharStream<_>) ->
             match stream.Peek() with
@@ -335,10 +339,10 @@ module internal SharedParsers =
                     if f.Status = Ok then f else valueStr stream
             | _ ->
                 match stream.PeekString 3, stream.PeekString 2 with
-                | "rgb", _ -> rgb stream
-                | "RGB", _ -> rgbC stream
-                | "hsv", _ -> hsv stream
-                | "HSV", _ -> hsvC stream
+                | "rgb", _ -> rgbP stream
+                | "RGB", _ -> rgbCP stream
+                | "hsv", _ -> hsvP stream
+                | "HSV", _ -> hsvCP stream
                 | "yes", _ -> byP stream
                 | _, "no" -> bnP stream
                 | "@\\[", _ -> mpP stream
